@@ -1,0 +1,24 @@
+body{
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#clock-panel{
+    display: flex;
+    width: 32vw;
+    height: 18vw;
+    background-color: gray;
+    border-radius: 3vw;
+}
+#clock-number>div{
+    width: 1vw;
+    height: 3vw;
+    background-color: #d6d6d6;
+    border-radius: 1vw;
+    border: 2px rgb(80, 80, 80) solid;    
+}
