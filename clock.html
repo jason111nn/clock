@@ -14,9 +14,18 @@
     </div>
     <div id="clock">
         <div id="clock-back">
+            <div id="time-unit-btn">time unit switch <span>24hr</span></div>
+            <div id="mode-change"></div>
 
+
+            <div id="clock-display"></div>
+            <div id="clock-colon"><div></div><div></div></div>
+            <div id="controls">
+                <button id="pause-btn">Pause</button>
+                <button id="reset-btn">Reset</button>
+            </div>
+            <table id="lap-table" style="display: none;"></table>
         </div>
-        <div id="time-unit-btn">time unit switch <span>24hr</span></div>
         <div id="clock-panel">
             <div id="clock-number" data-item="1">
                 <div>
@@ -118,9 +127,8 @@
     </div>
 
     <script>
-        let is24HourFormat = true;  // 默認為 24 小時制
+        let is24HourFormat = true;
 
-        // 七段顯示器對應的數字段位
         const digitSegments = {
             0: ['A', 'B', 'C', 'D', 'E', 'F'], // 0
             1: ['B', 'C'], // 1
@@ -133,23 +141,76 @@
             8: ['A', 'B', 'C', 'D', 'E', 'F', 'G'], // 8
             9: ['A', 'B', 'C', 'D', 'F', 'G'] // 9
         };
+        let is24HourFormat = JSON.parse(localStorage.getItem('is24HourFormat')) ?? true;
+        let mode = localStorage.getItem('mode') || 'clock';
+        let timer = null, timeElapsed = 0, countdownTime = 300;
+        
+        document.querySelector('#time-unit-btn').addEventListener('click', () => {
+            is24HourFormat = !is24HourFormat;
+            localStorage.setItem('is24HourFormat', JSON.stringify(is24HourFormat));
+            updateClock();
+        });
+        
+        document.querySelector('#mode-change').addEventListener('click', () => {
+            mode = mode === 'clock' ? 'stopwatch' : mode === 'stopwatch' ? 'countdown' : 'clock';
+            localStorage.setItem('mode', mode);
+            updateMode();
+        });
+        
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours(), minutes = now.getMinutes();
+            if (!is24HourFormat) hours = hours % 12 || 12;
+            displayTime(hours, minutes);
+        }
+        
+        function displayTime(hours, minutes) {
+            document.querySelector('#clock-display').textContent = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+        }
+        
+        function updateMode() {
+            document.querySelector('#lap-table').style.display = mode === 'stopwatch' ? 'block' : 'none';
+            document.querySelector('#controls').style.display = mode === 'clock' ? 'none' : 'flex';
+            if (mode === 'clock') updateClock();
+        }
+        
+        document.querySelector('#pause-btn').addEventListener('click', () => {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            } else {
+                startTimer();
+            }
+        });
+        
+        document.querySelector('#reset-btn').addEventListener('click', () => {
+            timeElapsed = 0;
+            countdownTime = 300;
+            updateMode();
+        });
+        
+        function startTimer() {
+            timer = setInterval(() => {
+                if (mode === 'stopwatch') timeElapsed++;
+                if (mode === 'countdown') countdownTime--;
+                updateMode();
+            }, 1000);
+        }
+        
+        updateMode();
 
-        // 更新七段顯示器的函數
         function updateSegmentDisplay(digit, displayId) {
-            const segments = digitSegments[digit];  // 根據數字獲取對應的段位
-            const display = document.querySelector(displayId);  // 查找對應的顯示器，這裡 displayId 是包含 data-item 的元素
+            const segments = digitSegments[digit];
+            const display = document.querySelector(displayId);
 
-            // 查找內層的 div，其中每個 div 包含 data-number 屬性
-            const allSegments = display.querySelectorAll('[data-number]');  // 選擇所有包含 data-number 屬性的 div
+            const allSegments = display.querySelectorAll('[data-number]');
 
             allSegments.forEach(segmentDiv => {
-                const segment = segmentDiv.dataset.number;  // 獲取每個段位的 data-number 屬性
-                // 根據是否包含在 segments 中來更新顯示
+                const segment = segmentDiv.dataset.number;
                 segmentDiv.style.backgroundColor = segments.includes(segment) ? '#ece473' : '#5a5a5a42';
             });
         }
 
-        // 更新冒號的閃爍效果
         function updateColon() {
             const colonDivs = document.querySelectorAll('#clock-colon div');
             setInterval(() => {
@@ -159,45 +220,37 @@
             }, 500);
         }
 
-        // 更新時鐘顯示
         function updateClock() {
             const now = new Date();
-            let hours = now.getHours();  // 獲取當前小時
-            const minutes = now.getMinutes();  // 獲取當前分鐘
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
 
-            // 如果是 12 小時制，則進行轉換
             if (!is24HourFormat) {
                 if (hours > 12) {
-                    hours -= 12;  // 超過12小時的部分轉為12小時制
+                    hours -= 12;
                 }
                 if (hours === 0) {
-                    hours = 12;  // 12 小時制下 0 小時顯示為 12
+                    hours = 12;
                 }
             }
 
-            // 根據小時和分鐘的十位數與個位數來更新顯示
             updateSegmentDisplay(Math.floor(hours / 10), '#clock-number[data-item="1"]');  // 顯示小時的十位數
             updateSegmentDisplay(hours % 10, '#clock-number[data-item="2"]');  // 顯示小時的個位數
             updateSegmentDisplay(Math.floor(minutes / 10), '#clock-number[data-item="3"]');  // 顯示分鐘的十位數
             updateSegmentDisplay(minutes % 10, '#clock-number[data-item="4"]');  // 顯示分鐘的個位數
         }
 
-        // 切換時制的函數
         function toggleTimeUnit() {
-            is24HourFormat = !is24HourFormat;  // 切換時制
+            is24HourFormat = !is24HourFormat;
 
-            // 更新按鈕顯示
             const timeUnitText = document.querySelector('#time-unit-btn span');
             timeUnitText.textContent = is24HourFormat ? '24hr' : '12hr';
         }
 
-        // 設置時制切換按鈕的事件處理
         document.querySelector('#time-unit-btn').addEventListener('click', toggleTimeUnit);
 
-        // 每秒更新時鐘
         setInterval(updateClock, 1000);
 
-        // 初次執行
         updateClock();
         updateColon();
 
