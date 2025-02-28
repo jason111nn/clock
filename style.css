@@ -1,4 +1,4 @@
-body{
+body {
     margin: 0;
     width: 100vw;
     height: 100vh;
@@ -8,17 +8,94 @@ body{
     justify-content: center;
     flex-direction: column;
 }
-#clock-panel{
+
+#clock-panel {
     display: flex;
-    width: 32vw;
-    height: 18vw;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw;
+    width: 45vw;
+    height: 15vw;
     background-color: gray;
     border-radius: 3vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-#clock-number>div{
+
+#clock-number {
+    width: inherit;
+    margin: 0.5vw;
+
+}
+
+#clock-number>div {
+    width: auto;
+    height: 2.5vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#clock-number>div>div {
     width: 1vw;
-    height: 3vw;
+    height: 4vw;
     background-color: #d6d6d6;
-    border-radius: 1vw;
-    border: 2px rgb(80, 80, 80) solid;    
+    clip-path: polygon(0.5vw 0vw, 4vw 4vw, 2vw 2vw, 0.5vw 4vw, -1vw 2vw);
+}
+
+#clock-number>div>div[data-number="A"],
+#clock-number>div>div[data-number="D"],
+#clock-number>div>div[data-number="G"] {
+    transform: rotate(90deg);
+}
+
+#clock-colon {
+    width: initial;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#clock-colon>div{
+    width: 1vw;
+    height: 1vw;
+    background-color: #ece473;
+    border-radius: 0.2vw;
+}
+
+#clock-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw;
+    width: 45vw;
+    height: 15vw;
+    background-color: rgb(231, 231, 231);
+    border-radius: 3vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-45%, -55%);
+}
+#time-unit-btn{
+    cursor: pointer;
+    color: rgb(255, 243, 221);
+    background-color: #cd8787;
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    transform: translate(-40%, -55%);
+    padding: 2vw;
+    text-align: center;
+    font-size: 2vw;
+    border-radius: 2vw;
+    height: 3em;
+    border: rgb(59, 59, 59) 4px solid;
+}
+#time-unit-btn:active{
+    transform: translate(-40%, -50%);
 }

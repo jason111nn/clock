@@ -1,58 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clock</title>
     <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
     <div id="background">
 
     </div>
     <div id="clock">
+        <div id="clock-back">
+
+        </div>
+        <div id="time-unit-btn">time unit switch <span>24hr</span></div>
         <div id="clock-panel">
             <div id="clock-number" data-item="1">
-                <div data-number="A"></div> <!--top-->
-                <div data-number="B"></div> <!--top-right-->
-                <div data-number="C"></div> <!--bottom-right-->
-                <div data-number="D"></div> <!--bottom-->
-                <div data-number="E"></div> <!--bottom-left-->
-                <div data-number="F"></div> <!--top-left-->
-                <div data-number="G"></div> <!--middle-->
+                <div>
+                    <div data-number="A"></div> <!--top-->
+                </div>
+
+                <div>
+                    <div data-number="F"></div> <!--top-left-->
+                    <div data-number="B"></div> <!--top-right-->
+                </div>
+
+                <div>
+                    <div data-number="G"></div> <!--middle-->
+                </div>
+
+                <div>
+                    <div data-number="E"></div> <!--bottom-left-->
+                    <div data-number="C"></div> <!--bottom-right-->
+                </div>
+
+                <div>
+                    <div data-number="D"></div> <!--bottom-->
+                </div>
             </div>
             <div id="clock-number" data-item="2">
-                <div data-number="A"></div> <!--top-->
-                <div data-number="B"></div> <!--top-right-->
-                <div data-number="C"></div> <!--bottom-right-->
-                <div data-number="D"></div> <!--bottom-->
-                <div data-number="E"></div> <!--bottom-left-->
-                <div data-number="F"></div> <!--top-left-->
-                <div data-number="G"></div> <!--middle-->
+                <div>
+                    <div data-number="A"></div> <!--top-->
+                </div>
+
+                <div>
+                    <div data-number="F"></div> <!--top-left-->
+                    <div data-number="B"></div> <!--top-right-->
+                </div>
+
+                <div>
+                    <div data-number="G"></div> <!--middle-->
+                </div>
+
+                <div>
+                    <div data-number="E"></div> <!--bottom-left-->
+                    <div data-number="C"></div> <!--bottom-right-->
+                </div>
+
+                <div>
+                    <div data-number="D"></div> <!--bottom-->
+                </div>
             </div>
             <div id="clock-colon">
                 <div></div>
                 <div></div>
             </div>
             <div id="clock-number" data-item="3">
-                <div data-number="A"></div> <!--top-->
-                <div data-number="B"></div> <!--top-right-->
-                <div data-number="C"></div> <!--bottom-right-->
-                <div data-number="D"></div> <!--bottom-->
-                <div data-number="E"></div> <!--bottom-left-->
-                <div data-number="F"></div> <!--top-left-->
-                <div data-number="G"></div> <!--middle-->
+                <div>
+                    <div data-number="A"></div> <!--top-->
+                </div>
+
+                <div>
+                    <div data-number="F"></div> <!--top-left-->
+                    <div data-number="B"></div> <!--top-right-->
+                </div>
+
+                <div>
+                    <div data-number="G"></div> <!--middle-->
+                </div>
+
+                <div>
+                    <div data-number="E"></div> <!--bottom-left-->
+                    <div data-number="C"></div> <!--bottom-right-->
+                </div>
+
+                <div>
+                    <div data-number="D"></div> <!--bottom-->
+                </div>
             </div>
             <div id="clock-number" data-item="4">
-                <div data-number="A"></div> <!--top-->
-                <div data-number="B"></div> <!--top-right-->
-                <div data-number="C"></div> <!--bottom-right-->
-                <div data-number="D"></div> <!--bottom-->
-                <div data-number="E"></div> <!--bottom-left-->
-                <div data-number="F"></div> <!--top-left-->
-                <div data-number="G"></div> <!--middle-->
+                <div>
+                    <div data-number="A"></div> <!--top-->
+                </div>
+
+                <div>
+                    <div data-number="F"></div> <!--top-left-->
+                    <div data-number="B"></div> <!--top-right-->
+                </div>
+
+                <div>
+                    <div data-number="G"></div> <!--middle-->
+                </div>
+
+                <div>
+                    <div data-number="E"></div> <!--bottom-left-->
+                    <div data-number="C"></div> <!--bottom-right-->
+                </div>
+
+                <div>
+                    <div data-number="D"></div> <!--bottom-->
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        let is24HourFormat = true;  // 默認為 24 小時制
+
+        // 七段顯示器對應的數字段位
+        const digitSegments = {
+            0: ['A', 'B', 'C', 'D', 'E', 'F'], // 0
+            1: ['B', 'C'], // 1
+            2: ['A', 'B', 'D', 'E', 'G'], // 2
+            3: ['A', 'B', 'C', 'D', 'G'], // 3
+            4: ['B', 'C', 'F', 'G'], // 4
+            5: ['A', 'C', 'D', 'F', 'G'], // 5
+            6: ['A', 'C', 'D', 'E', 'F', 'G'], // 6
+            7: ['A', 'B', 'C'], // 7
+            8: ['A', 'B', 'C', 'D', 'E', 'F', 'G'], // 8
+            9: ['A', 'B', 'C', 'D', 'F', 'G'] // 9
+        };
+
+        // 更新七段顯示器的函數
+        function updateSegmentDisplay(digit, displayId) {
+            const segments = digitSegments[digit];  // 根據數字獲取對應的段位
+            const display = document.querySelector(displayId);  // 查找對應的顯示器，這裡 displayId 是包含 data-item 的元素
+
+            // 查找內層的 div，其中每個 div 包含 data-number 屬性
+            const allSegments = display.querySelectorAll('[data-number]');  // 選擇所有包含 data-number 屬性的 div
+
+            allSegments.forEach(segmentDiv => {
+                const segment = segmentDiv.dataset.number;  // 獲取每個段位的 data-number 屬性
+                // 根據是否包含在 segments 中來更新顯示
+                segmentDiv.style.backgroundColor = segments.includes(segment) ? '#ece473' : '#5a5a5a42';
+            });
+        }
+
+        // 更新冒號的閃爍效果
+        function updateColon() {
+            const colonDivs = document.querySelectorAll('#clock-colon div');
+            setInterval(() => {
+                colonDivs.forEach(colon => {
+                    colon.style.visibility = (colon.style.visibility === 'hidden') ? 'visible' : 'hidden';
+                });
+            }, 500);
+        }
+
+        // 更新時鐘顯示
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();  // 獲取當前小時
+            const minutes = now.getMinutes();  // 獲取當前分鐘
+
+            // 如果是 12 小時制，則進行轉換
+            if (!is24HourFormat) {
+                if (hours > 12) {
+                    hours -= 12;  // 超過12小時的部分轉為12小時制
+                }
+                if (hours === 0) {
+                    hours = 12;  // 12 小時制下 0 小時顯示為 12
+                }
+            }
+
+            // 根據小時和分鐘的十位數與個位數來更新顯示
+            updateSegmentDisplay(Math.floor(hours / 10), '#clock-number[data-item="1"]');  // 顯示小時的十位數
+            updateSegmentDisplay(hours % 10, '#clock-number[data-item="2"]');  // 顯示小時的個位數
+            updateSegmentDisplay(Math.floor(minutes / 10), '#clock-number[data-item="3"]');  // 顯示分鐘的十位數
+            updateSegmentDisplay(minutes % 10, '#clock-number[data-item="4"]');  // 顯示分鐘的個位數
+        }
+
+        // 切換時制的函數
+        function toggleTimeUnit() {
+            is24HourFormat = !is24HourFormat;  // 切換時制
+
+            // 更新按鈕顯示
+            const timeUnitText = document.querySelector('#time-unit-btn span');
+            timeUnitText.textContent = is24HourFormat ? '24hr' : '12hr';
+        }
+
+        // 設置時制切換按鈕的事件處理
+        document.querySelector('#time-unit-btn').addEventListener('click', toggleTimeUnit);
+
+        // 每秒更新時鐘
+        setInterval(updateClock, 1000);
+
+        // 初次執行
+        updateClock();
+        updateColon();
+
+    </script>
 </body>
+
 </html>
