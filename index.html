@@ -9,68 +9,50 @@
 </head>
 
 <body>
-    <div id="background">
-
-    </div>
+    <div id="background"></div>
     <div id="clock">
         <div id="clock-back">
             <div id="time-unit-btn">time unit switch <span>24hr</span></div>
             <div id="mode-change"></div>
-
-
-            <div id="clock-display"></div>
-            <div id="clock-colon"><div></div><div></div></div>
-            <div id="controls">
-                <button id="pause-btn">Pause</button>
-                <button id="reset-btn">Reset</button>
-            </div>
-            <table id="lap-table" style="display: none;"></table>
         </div>
         <div id="clock-panel">
+            <!-- 保留原本的結構，data-item 與 data-number 不變 -->
             <div id="clock-number" data-item="1">
                 <div>
-                    <div data-number="A"></div> <!--top-->
+                    <div data-number="A"></div>
                 </div>
-
                 <div>
-                    <div data-number="F"></div> <!--top-left-->
-                    <div data-number="B"></div> <!--top-right-->
+                    <div data-number="F"></div>
+                    <div data-number="B"></div>
                 </div>
-
                 <div>
-                    <div data-number="G"></div> <!--middle-->
+                    <div data-number="G"></div>
                 </div>
-
                 <div>
-                    <div data-number="E"></div> <!--bottom-left-->
-                    <div data-number="C"></div> <!--bottom-right-->
+                    <div data-number="E"></div>
+                    <div data-number="C"></div>
                 </div>
-
                 <div>
-                    <div data-number="D"></div> <!--bottom-->
+                    <div data-number="D"></div>
                 </div>
             </div>
             <div id="clock-number" data-item="2">
                 <div>
-                    <div data-number="A"></div> <!--top-->
+                    <div data-number="A"></div>
                 </div>
-
                 <div>
-                    <div data-number="F"></div> <!--top-left-->
-                    <div data-number="B"></div> <!--top-right-->
+                    <div data-number="F"></div>
+                    <div data-number="B"></div>
                 </div>
-
                 <div>
-                    <div data-number="G"></div> <!--middle-->
+                    <div data-number="G"></div>
                 </div>
-
                 <div>
-                    <div data-number="E"></div> <!--bottom-left-->
-                    <div data-number="C"></div> <!--bottom-right-->
+                    <div data-number="E"></div>
+                    <div data-number="C"></div>
                 </div>
-
                 <div>
-                    <div data-number="D"></div> <!--bottom-->
+                    <div data-number="D"></div>
                 </div>
             </div>
             <div id="clock-colon">
@@ -79,134 +61,69 @@
             </div>
             <div id="clock-number" data-item="3">
                 <div>
-                    <div data-number="A"></div> <!--top-->
+                    <div data-number="A"></div>
                 </div>
-
                 <div>
-                    <div data-number="F"></div> <!--top-left-->
-                    <div data-number="B"></div> <!--top-right-->
+                    <div data-number="F"></div>
+                    <div data-number="B"></div>
                 </div>
-
                 <div>
-                    <div data-number="G"></div> <!--middle-->
+                    <div data-number="G"></div>
                 </div>
-
                 <div>
-                    <div data-number="E"></div> <!--bottom-left-->
-                    <div data-number="C"></div> <!--bottom-right-->
+                    <div data-number="E"></div>
+                    <div data-number="C"></div>
                 </div>
-
                 <div>
-                    <div data-number="D"></div> <!--bottom-->
+                    <div data-number="D"></div>
                 </div>
             </div>
             <div id="clock-number" data-item="4">
                 <div>
-                    <div data-number="A"></div> <!--top-->
+                    <div data-number="A"></div>
                 </div>
-
                 <div>
-                    <div data-number="F"></div> <!--top-left-->
-                    <div data-number="B"></div> <!--top-right-->
+                    <div data-number="F"></div>
+                    <div data-number="B"></div>
                 </div>
-
                 <div>
-                    <div data-number="G"></div> <!--middle-->
+                    <div data-number="G"></div>
                 </div>
-
                 <div>
-                    <div data-number="E"></div> <!--bottom-left-->
-                    <div data-number="C"></div> <!--bottom-right-->
+                    <div data-number="E"></div>
+                    <div data-number="C"></div>
                 </div>
-
                 <div>
-                    <div data-number="D"></div> <!--bottom-->
+                    <div data-number="D"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let is24HourFormat = true;
+        // 從 localStorage 讀取 is24HourFormat，若未存則預設為 true
+        let is24HourFormat = localStorage.getItem('is24HourFormat') !== 'false';
 
         const digitSegments = {
-            0: ['A', 'B', 'C', 'D', 'E', 'F'], // 0
-            1: ['B', 'C'], // 1
-            2: ['A', 'B', 'D', 'E', 'G'], // 2
-            3: ['A', 'B', 'C', 'D', 'G'], // 3
-            4: ['B', 'C', 'F', 'G'], // 4
-            5: ['A', 'C', 'D', 'F', 'G'], // 5
-            6: ['A', 'C', 'D', 'E', 'F', 'G'], // 6
-            7: ['A', 'B', 'C'], // 7
-            8: ['A', 'B', 'C', 'D', 'E', 'F', 'G'], // 8
-            9: ['A', 'B', 'C', 'D', 'F', 'G'] // 9
+            0: ['A', 'B', 'C', 'D', 'E', 'F'],
+            1: ['B', 'C'],
+            2: ['A', 'B', 'D', 'E', 'G'],
+            3: ['A', 'B', 'C', 'D', 'G'],
+            4: ['B', 'C', 'F', 'G'],
+            5: ['A', 'C', 'D', 'F', 'G'],
+            6: ['A', 'C', 'D', 'E', 'F', 'G'],
+            7: ['A', 'B', 'C'],
+            8: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+            9: ['A', 'B', 'C', 'D', 'F', 'G']
         };
-        let is24HourFormat = JSON.parse(localStorage.getItem('is24HourFormat')) ?? true;
-        let mode = localStorage.getItem('mode') || 'clock';
-        let timer = null, timeElapsed = 0, countdownTime = 300;
-        
-        document.querySelector('#time-unit-btn').addEventListener('click', () => {
-            is24HourFormat = !is24HourFormat;
-            localStorage.setItem('is24HourFormat', JSON.stringify(is24HourFormat));
-            updateClock();
-        });
-        
-        document.querySelector('#mode-change').addEventListener('click', () => {
-            mode = mode === 'clock' ? 'stopwatch' : mode === 'stopwatch' ? 'countdown' : 'clock';
-            localStorage.setItem('mode', mode);
-            updateMode();
-        });
-        
-        function updateClock() {
-            const now = new Date();
-            let hours = now.getHours(), minutes = now.getMinutes();
-            if (!is24HourFormat) hours = hours % 12 || 12;
-            displayTime(hours, minutes);
-        }
-        
-        function displayTime(hours, minutes) {
-            document.querySelector('#clock-display').textContent = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
-        }
-        
-        function updateMode() {
-            document.querySelector('#lap-table').style.display = mode === 'stopwatch' ? 'block' : 'none';
-            document.querySelector('#controls').style.display = mode === 'clock' ? 'none' : 'flex';
-            if (mode === 'clock') updateClock();
-        }
-        
-        document.querySelector('#pause-btn').addEventListener('click', () => {
-            if (timer) {
-                clearInterval(timer);
-                timer = null;
-            } else {
-                startTimer();
-            }
-        });
-        
-        document.querySelector('#reset-btn').addEventListener('click', () => {
-            timeElapsed = 0;
-            countdownTime = 300;
-            updateMode();
-        });
-        
-        function startTimer() {
-            timer = setInterval(() => {
-                if (mode === 'stopwatch') timeElapsed++;
-                if (mode === 'countdown') countdownTime--;
-                updateMode();
-            }, 1000);
-        }
-        
-        updateMode();
 
-        function updateSegmentDisplay(digit, displayId) {
+        // 透過 data-item 選取元素，而不依賴重複的 id
+        function updateSegmentDisplay(digit, itemValue) {
             const segments = digitSegments[digit];
-            const display = document.querySelector(displayId);
-
-            const allSegments = display.querySelectorAll('[data-number]');
-
-            allSegments.forEach(segmentDiv => {
-                const segment = segmentDiv.dataset.number;
+            const display = document.querySelector('[data-item="' + itemValue + '"]');
+            if (!display) return;
+            display.querySelectorAll('[data-number]').forEach(segmentDiv => {
+                const segment = segmentDiv.getAttribute('data-number');
                 segmentDiv.style.backgroundColor = segments.includes(segment) ? '#ece473' : '#5a5a5a42';
             });
         }
@@ -220,40 +137,37 @@
             }, 500);
         }
 
+        // 使用真正的系統時間來更新時鐘
         function updateClock() {
             const now = new Date();
             let hours = now.getHours();
             const minutes = now.getMinutes();
 
             if (!is24HourFormat) {
-                if (hours > 12) {
-                    hours -= 12;
-                }
-                if (hours === 0) {
-                    hours = 12;
-                }
+                hours = hours % 12 || 12;
             }
 
-            updateSegmentDisplay(Math.floor(hours / 10), '#clock-number[data-item="1"]');  // 顯示小時的十位數
-            updateSegmentDisplay(hours % 10, '#clock-number[data-item="2"]');  // 顯示小時的個位數
-            updateSegmentDisplay(Math.floor(minutes / 10), '#clock-number[data-item="3"]');  // 顯示分鐘的十位數
-            updateSegmentDisplay(minutes % 10, '#clock-number[data-item="4"]');  // 顯示分鐘的個位數
+            updateSegmentDisplay(Math.floor(hours / 10), "1");
+            updateSegmentDisplay(hours % 10, "2");
+            updateSegmentDisplay(Math.floor(minutes / 10), "3");
+            updateSegmentDisplay(minutes % 10, "4");
         }
 
         function toggleTimeUnit() {
             is24HourFormat = !is24HourFormat;
-
-            const timeUnitText = document.querySelector('#time-unit-btn span');
-            timeUnitText.textContent = is24HourFormat ? '24hr' : '12hr';
+            localStorage.setItem('is24HourFormat', is24HourFormat);
+            document.querySelector('#time-unit-btn span').textContent = is24HourFormat ? '24hr' : '12hr';
+            updateClock();
         }
 
         document.querySelector('#time-unit-btn').addEventListener('click', toggleTimeUnit);
 
-        setInterval(updateClock, 1000);
+        // 初始化按鈕文字
+        document.querySelector('#time-unit-btn span').textContent = is24HourFormat ? '24hr' : '12hr';
 
+        setInterval(updateClock, 1000);
         updateClock();
         updateColon();
-
     </script>
 </body>
 
