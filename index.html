@@ -130,12 +130,15 @@
 
         function updateColon() {
             const colonDivs = document.querySelectorAll('#clock-colon div');
+            let isLit = true; // 初始為亮色
+
             setInterval(() => {
+                isLit = !isLit; // 切換狀態
                 colonDivs.forEach(colon => {
-                    colon.style.visibility = (colon.style.visibility === 'hidden') ? 'visible' : 'hidden';
+                    colon.style.backgroundColor = isLit ? '#ece473' : '#5a5a5a42';
                 });
             }, 500);
-        }
+        }   
 
         // 使用真正的系統時間來更新時鐘
         function updateClock() {
