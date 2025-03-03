@@ -12,166 +12,111 @@
     <div id="background"></div>
     <div id="clock">
         <div id="clock-back">
-            <div id="time-unit-btn">time unit switch <span>24hr</span></div>
-            <div id="mode-change"></div>
+            <div id="clock-top-btn">
+                <div id="time-unit-btn">time unit switch <span>24hr</span></div>
+                <div id="mode-change"></div>
+            </div>
         </div>
         <div id="clock-panel">
-            <!-- 保留原本的結構，data-item 與 data-number 不變 -->
-            <div id="clock-number" data-item="1">
-                <div>
-                    <div data-number="A"></div>
-                </div>
-                <div>
-                    <div data-number="F"></div>
-                    <div data-number="B"></div>
-                </div>
-                <div>
-                    <div data-number="G"></div>
-                </div>
-                <div>
-                    <div data-number="E"></div>
-                    <div data-number="C"></div>
-                </div>
-                <div>
-                    <div data-number="D"></div>
-                </div>
+            <div class="day">
+                <span id="d-SUN">SUN</span>
+                <span id="d-MON">MON</span>
+                <span id="d-TUE">TUE</span>
+                <span id="d-WEN">WEN</span>
+                <span id="d-THU">THU</span>
+                <span id="d-FRI">FRI</span>
+                <span id="d-SAT">SAT</span>
             </div>
-            <div id="clock-number" data-item="2">
-                <div>
-                    <div data-number="A"></div>
+            <div class="time">
+                <div id="clock-number" data-item="1">
+                    <div>
+                        <div data-number="A"></div>
+                    </div>
+                    <div>
+                        <div data-number="F"></div>
+                        <div data-number="B"></div>
+                    </div>
+                    <div>
+                        <div data-number="G"></div>
+                    </div>
+                    <div>
+                        <div data-number="E"></div>
+                        <div data-number="C"></div>
+                    </div>
+                    <div>
+                        <div data-number="D"></div>
+                    </div>
                 </div>
-                <div>
-                    <div data-number="F"></div>
-                    <div data-number="B"></div>
+                <div id="clock-number" data-item="2">
+                    <div>
+                        <div data-number="A"></div>
+                    </div>
+                    <div>
+                        <div data-number="F"></div>
+                        <div data-number="B"></div>
+                    </div>
+                    <div>
+                        <div data-number="G"></div>
+                    </div>
+                    <div>
+                        <div data-number="E"></div>
+                        <div data-number="C"></div>
+                    </div>
+                    <div>
+                        <div data-number="D"></div>
+                    </div>
                 </div>
-                <div>
-                    <div data-number="G"></div>
+                <div id="clock-colon">
+                    <div></div>
+                    <div></div>
                 </div>
-                <div>
-                    <div data-number="E"></div>
-                    <div data-number="C"></div>
+                <div id="clock-number" data-item="3">
+                    <div>
+                        <div data-number="A"></div>
+                    </div>
+                    <div>
+                        <div data-number="F"></div>
+                        <div data-number="B"></div>
+                    </div>
+                    <div>
+                        <div data-number="G"></div>
+                    </div>
+                    <div>
+                        <div data-number="E"></div>
+                        <div data-number="C"></div>
+                    </div>
+                    <div>
+                        <div data-number="D"></div>
+                    </div>
                 </div>
-                <div>
-                    <div data-number="D"></div>
+                <div id="clock-number" data-item="4">
+                    <div>
+                        <div data-number="A"></div>
+                    </div>
+                    <div>
+                        <div data-number="F"></div>
+                        <div data-number="B"></div>
+                    </div>
+                    <div>
+                        <div data-number="G"></div>
+                    </div>
+                    <div>
+                        <div data-number="E"></div>
+                        <div data-number="C"></div>
+                    </div>
+                    <div>
+                        <div data-number="D"></div>
+                    </div>
                 </div>
-            </div>
-            <div id="clock-colon">
-                <div></div>
-                <div></div>
-            </div>
-            <div id="clock-number" data-item="3">
-                <div>
-                    <div data-number="A"></div>
-                </div>
-                <div>
-                    <div data-number="F"></div>
-                    <div data-number="B"></div>
-                </div>
-                <div>
-                    <div data-number="G"></div>
-                </div>
-                <div>
-                    <div data-number="E"></div>
-                    <div data-number="C"></div>
-                </div>
-                <div>
-                    <div data-number="D"></div>
-                </div>
-            </div>
-            <div id="clock-number" data-item="4">
-                <div>
-                    <div data-number="A"></div>
-                </div>
-                <div>
-                    <div data-number="F"></div>
-                    <div data-number="B"></div>
-                </div>
-                <div>
-                    <div data-number="G"></div>
-                </div>
-                <div>
-                    <div data-number="E"></div>
-                    <div data-number="C"></div>
-                </div>
-                <div>
-                    <div data-number="D"></div>
+                <div id="APM">
+                    <span id="PM">PM</span>
+                    <span id="AM">AM</span>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        // 從 localStorage 讀取 is24HourFormat，若未存則預設為 true
-        let is24HourFormat = localStorage.getItem('is24HourFormat') !== 'false';
-
-        const digitSegments = {
-            0: ['A', 'B', 'C', 'D', 'E', 'F'],
-            1: ['B', 'C'],
-            2: ['A', 'B', 'D', 'E', 'G'],
-            3: ['A', 'B', 'C', 'D', 'G'],
-            4: ['B', 'C', 'F', 'G'],
-            5: ['A', 'C', 'D', 'F', 'G'],
-            6: ['A', 'C', 'D', 'E', 'F', 'G'],
-            7: ['A', 'B', 'C'],
-            8: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
-            9: ['A', 'B', 'C', 'D', 'F', 'G']
-        };
-
-        // 透過 data-item 選取元素，而不依賴重複的 id
-        function updateSegmentDisplay(digit, itemValue) {
-            const segments = digitSegments[digit];
-            const display = document.querySelector('[data-item="' + itemValue + '"]');
-            if (!display) return;
-            display.querySelectorAll('[data-number]').forEach(segmentDiv => {
-                const segment = segmentDiv.getAttribute('data-number');
-                segmentDiv.style.backgroundColor = segments.includes(segment) ? '#ece473' : '#5a5a5a42';
-            });
-        }
-
-        function updateColon() {
-            const colonDivs = document.querySelectorAll('#clock-colon div');
-            let isLit = true; // 初始為亮色
-
-            setInterval(() => {
-                isLit = !isLit; // 切換狀態
-                colonDivs.forEach(colon => {
-                    colon.style.backgroundColor = isLit ? '#ece473' : '#5a5a5a42';
-                });
-            }, 500);
-        }   
-
-        // 使用真正的系統時間來更新時鐘
-        function updateClock() {
-            const now = new Date();
-            let hours = now.getHours();
-            const minutes = now.getMinutes();
-
-            if (!is24HourFormat) {
-                hours = hours % 12 || 12;
-            }
-
-            updateSegmentDisplay(Math.floor(hours / 10), "1");
-            updateSegmentDisplay(hours % 10, "2");
-            updateSegmentDisplay(Math.floor(minutes / 10), "3");
-            updateSegmentDisplay(minutes % 10, "4");
-        }
-
-        function toggleTimeUnit() {
-            is24HourFormat = !is24HourFormat;
-            localStorage.setItem('is24HourFormat', is24HourFormat);
-            document.querySelector('#time-unit-btn span').textContent = is24HourFormat ? '24hr' : '12hr';
-            updateClock();
-        }
-
-        document.querySelector('#time-unit-btn').addEventListener('click', toggleTimeUnit);
-
-        // 初始化按鈕文字
-        document.querySelector('#time-unit-btn span').textContent = is24HourFormat ? '24hr' : '12hr';
-
-        setInterval(updateClock, 1000);
-        updateClock();
-        updateColon();
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./clock.js"></script>
 </body>
 
 </html>
