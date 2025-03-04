@@ -150,14 +150,24 @@ function updateClock() {
     const $pmEl = $('#PM');
 
     if (!is24HourFormat) {
+        // 12 小時制轉換
         hours = hours % 12 || 12;
-        $amEl.css('color', hours < 12 ? '#ece473' : '#5a5a5a42');
-        $pmEl.css('color', hours >= 12 ? '#ece473' : '#5a5a5a42');
+
+        // 設置 AM 或 PM 顯示顏色
+        if (hours < 12) {
+            $amEl.css('color', '#ece473');
+            $pmEl.css('color', '#5a5a5a42');
+        } else {
+            $amEl.css('color', '#5a5a5a42');
+            $pmEl.css('color', '#ece473');
+        }
     } else {
+        // 如果是 24 小時制，AM/PM 的顏色都設為灰色
         $amEl.css('color', '#5a5a5a42');
         $pmEl.css('color', '#5a5a5a42');
     }
 
+    // 更新時鐘顯示
     updateSegmentDisplay(Math.floor(hours / 10), "1");
     updateSegmentDisplay(hours % 10, "2");
     updateSegmentDisplay(Math.floor(minutes / 10), "3");
