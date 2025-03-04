@@ -1,4 +1,20 @@
 $(document).ready(function () {
+    // 檢查瀏覽器是否支持 Fullscreen API
+    function openFullscreen() {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+        document.documentElement.mozRequestFullScreen();
+      } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari 和 Opera
+        document.documentElement.webkitRequestFullscreen();
+      } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+        document.documentElement.msRequestFullscreen();
+      }
+}
+
+// 觸發全螢幕
+openFullscreen();
+
     function getModeFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('mode') || "1"; // 預設為 1（時鐘）
