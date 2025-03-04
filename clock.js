@@ -1,19 +1,19 @@
 $(document).ready(function () {
     // 檢查瀏覽器是否支持 Fullscreen API
     function openFullscreen() {
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari 和 Opera
-        document.documentElement.webkitRequestFullscreen();
-      } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-        document.documentElement.msRequestFullscreen();
-      }
-}
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari 和 Opera
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+            document.documentElement.msRequestFullscreen();
+        }
+    }
 
-// 觸發全螢幕
-openFullscreen();
+    // 觸發全螢幕
+    openFullscreen();
 
     function getModeFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -154,13 +154,14 @@ function updateClock() {
         hours = hours % 12 || 12;
 
         // 設置 AM 或 PM 顯示顏色
-        if (hours < 12) {
+        if (now.getHours() < 12) { // 直接用原始小時判斷 AM/PM
             $amEl.css('color', '#ece473');
             $pmEl.css('color', '#5a5a5a42');
         } else {
             $amEl.css('color', '#5a5a5a42');
             $pmEl.css('color', '#ece473');
         }
+
     } else {
         // 如果是 24 小時制，AM/PM 的顏色都設為灰色
         $amEl.css('color', '#5a5a5a42');
